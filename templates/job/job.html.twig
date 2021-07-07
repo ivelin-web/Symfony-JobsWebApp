@@ -1,0 +1,175 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Job
+{% endblock %}
+
+{% block body %}
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-purple text-white">
+					<h5 class="modal-title" id="exampleModalLabel">Are u sure?</h5>
+					<button type="button" class="btn btn-floating shadow-0" data-mdb-dismiss="modal" aria-label="Close">
+						<i class="fas fa-times fa-2x text-white"></i>
+					</button>
+				</div>
+				<div class="modal-body text-center">
+					<i class="fas fa-times fa-3x text-purple"></i>
+				</div>
+				<div class="modal-footer text-center">
+					<button type="button" class="btn btn-purple" data-mdb-dismiss="modal">
+						No
+					</button>
+					<a href={{ path('jobs_delete', {'id': job.id} ) }} type="button" class="btn btn-outline-purple">Delete</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Apply Modal -->
+	<div class="modal fade" id="exampleApplyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-purple text-white">
+					<h5 class="modal-title" id="exampleModalLabel">Send your motivation message</h5>
+					<button type="button" class="btn btn-floating shadow-0" data-mdb-dismiss="modal" aria-label="Close">
+						<i class="fas fa-times fa-2x text-white"></i>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form method="post" action={{ path('jobs_apply_message', {'id': job.id} ) }}>
+						<div class="form-outline">
+							<textarea class="form-control" name="message[text]" id="text" rows="4" autocomplete="false" required autofocus></textarea>
+							<label class="form-label" for="text">Text</label>
+						</div>
+
+						<input type="hidden" name="_csrf_token" value="{{ csrf_token('job_message_apply') }}">
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-purple" data-mdb-dismiss="modal">
+								Close
+							</button>
+							<button type="submit" class="btn btn-outline-purple">Apply</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% for message in app.flashes('job_added_to_favorite') %}
+		<div class="alert alert-success fs-5 text-center">
+			{{message}}
+		</div>
+	{% endfor %}
+	{% for error in app.flashes('error') %}
+		<div class="alert alert-danger fs-5 text-center">
+			{{error}}
+		</div>
+	{% endfor %}
+	{% for success in app.flashes('success') %}
+		<div class="alert alert-success fs-5 text-center">
+			{{success}}
+		</div>
+	{% endfor %}
+	<div class="container py-4">
+		<h3 class="text-center text-purple">Job</h3>
+		<hr class="bg-purple">
+		<div style="font-size: 0.9rem" class="d-flex justify-content-between text-muted px-5 mb-4">
+			<p>{{job.dateAdded|date("m.d.Y")}}</p>
+			<p>Views:
+				<span class="fw-bold">{{job.views}}</span>
+			</p>
+		</div>
+		<div class="text-center mb-5">
+			<img class="img-fluid" style="cursor: pointer;" src="{{job.firm.banerUrl}}" alt="Firm Logo">
+		</div>
+		{% if app.user and app.user.id == job.owner.id %}
+			<div class="mb-3 pb-3 border-bottom">
+				<p class="fs-5 fw-bold letter-spacing" style="color: #333">User Settings</p>
+				<div class="d-flex flex-column flex-sm-row gap-2">
+					<a class="btn btn-primary" style="background-color: #880E4F; font-size: 0.85rem;" href={{ path('jobs_edit', {'id': job.id} ) }} role="button">
+						<i class="fas fa-edit me-1"></i>
+						Edit Job
+					</a>
+					<button type="button" data-mdb-toggle="modal" data-mdb-target="#exampleModal" class="btn btn-primary" style="background-color: #880E4F; font-size: 0.85rem;" role="button">
+						<i class="fas fa-trash-alt me-1"></i>
+						Delete Job
+					</button>
+				</div>
+			</div>
+		{% endif %}
+
+		<h3 class="letter-spacing mb-1 fw-bold" style="font-size: 1.3rem; color: #333;">{{job.title}}</h3>
+		<div class="d-flex align-items-center gap-1 mb-2" style="font-size: 0.85rem; color: #880E4F">
+			<i class="fas fa-star"></i>
+			<i class="fas fa-star"></i>
+			<i class="fas fa-star"></i>
+			<i class="fas fa-star"></i>
+			<i class="fas fa-star"></i>
+		</div>
+		<p class="fw-bold mb-1">Workplace
+			{{job.location}}; Address
+			{{job.address}}</p>
+		<p class="fw-bold">
+			Owner:
+			<a class="text-purple" href={{path('user_profile', {'id': job.owner.id} )}}>{{job.owner.firstName}}
+				{{job.owner.lastName}}</a>
+		</p>
+		{% if app.user %}
+			{% if isJobInFavorite %}
+				<a href={{ path('jobs_remove_from_favorite', {'id': job.id} ) }} class="d-flex align-items-center gap-2 py-3 border-top border-bottom mb-2">
+					<i class="far fa-bookmark text-purple" style="font-size: 1.2rem;"></i>
+					<p class="mb-0" style="font-size:1.1rem; color: #333">Remove job from your favorites</p>
+				</a>
+			{% else %}
+				<a href={{ path('jobs_add_to_favorite', {'id': job.id} ) }} class="d-flex align-items-center gap-2 py-3 border-top border-bottom mb-2">
+					<i class="far fa-bookmark text-purple" style="font-size: 1.2rem;"></i>
+					<p class="mb-0" style="font-size:1.1rem; color: #333">Add job to your favorites</p>
+				</a>
+			{% endif %}
+		{% else %}
+			<a href={{ path('app_login') }} class="d-flex align-items-center gap-2 py-3 border-top border-bottom mb-2">
+				<i class="far fa-bookmark text-purple" style="font-size: 1.2rem;"></i>
+				<p class="mb-0" style="font-size:1.1rem; color: #333">Login to add a job to your favorites</p>
+			</a>
+		{% endif %}
+		<div>
+			<p class="fw-bold mb-1" style="color: #333;">Description and Requirements</p>
+			<p>{{job.firm.description}}</p>
+		</div>
+		<div>
+			<p class="fw-bold mb-1" style="color: #333;">Job Description</p>
+			<p>{{job.description}}</p>
+		</div>
+		<div>
+			<p class="fw-bold mb-1" style="color: #333;">Requirements</p>
+			<ul>
+				{% for requirement in job.requirementsToArray %}
+					<li>{{requirement}}</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div>
+			<p class="fw-bold mb-1" style="color: #333;">Obligations</p>
+			<ul>
+				{% for obligation in job.obligationsToArray %}
+					<li>{{obligation}}</li>
+				{% endfor %}
+			</ul>
+		</div>
+		{% if app.user and app.user.id != job.owner.id %}
+			<div class="text-center my-4">
+				<button type="button" data-mdb-toggle="modal" data-mdb-target="#exampleApplyModal" class="btn btn-primary" style="background-color: #880E4F; font-size: 1rem;" role="button">
+					<i class="fas fa-share me-1"></i>
+					Apply
+				</button>
+			</div>
+		{% endif %}
+		<a class="d-flex align-items-center p-3 border-top border-bottom" href={{ path('firms_get_one', {'id': job.firm.id} ) }}>
+			<img style="width: 100px; height: 50px; object-fit: cover" src="{{job.firm.banerUrl}}" alt="Firm Image">
+			<p class="text-purple ms-3 mb-0">{{job.firm.name}}</p>
+			<i class="fas fa-chevron-right ms-auto text-muted" style="font-size: 1.3rem;"></i>
+		</a>
+	</div>
+{% endblock %}

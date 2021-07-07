@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Firm
+{% endblock %}
+
+{% block body %}
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModalFirm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-purple text-white">
+					<h5 class="modal-title" id="exampleModalLabel">Are u sure?</h5>
+					<button type="button" class="btn btn-floating shadow-0" data-mdb-dismiss="modal" aria-label="Close">
+						<i class="fas fa-times fa-2x text-white"></i>
+					</button>
+				</div>
+				<div class="modal-body text-center">
+					<i class="fas fa-times fa-3x text-purple"></i>
+				</div>
+				<div class="modal-footer text-center">
+					<button type="button" class="btn btn-purple" data-mdb-dismiss="modal">
+						No
+					</button>
+					<a href={{ path('firms_delete', {'id': firm.id} ) }} type="button" class="btn btn-outline-purple">Delete</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container py-4">
+		<h3 class="text-center text-purple">Firm</h3>
+		<hr class="bg-purple">
+		<div style="font-size: 0.9rem" class="d-flex justify-content-between text-muted px-5 mb-4">
+			<p>{{firm.dateOfCreation|date("m.d.Y")}}</p>
+			<p>Views:
+				<span class="fw-bold">{{firm.views}}</span>
+			</p>
+		</div>
+		<div class="text-center mb-5">
+			<img class="img-fluid" style="cursor: pointer; max-height: 100vh; object-fit: contain" src="{{firm.banerUrl}}" alt="Firm Logo">
+		</div>
+		{% if app.user and app.user.id == firm.director.id %}
+			<div class="mb-3 pb-3 border-bottom">
+				<p class="fs-5 fw-bold letter-spacing" style="color: #333">User Settings</p>
+				<div class="d-flex flex-column flex-sm-row gap-2">
+					<a class="btn btn-primary" style="background-color: #880E4F; font-size: 0.85rem;" href={{ path('firms_edit', {'id': firm.id} ) }} role="button">
+						<i class="fas fa-edit me-1"></i>
+						Edit Firm
+					</a>
+					<button type="button" data-mdb-toggle="modal" data-mdb-target="#exampleModalFirm" class="btn btn-primary" style="background-color: #880E4F; font-size: 0.85rem;" role="button">
+						<i class="fas fa-trash-alt me-1"></i>
+						Delete Firm
+					</button>
+				</div>
+			</div>
+		{% endif %}
+
+		<h3 class="letter-spacing mb-1 fw-bold" style="font-size: 1.3rem; color: #333;">{{firm.name}}</h3>
+		<p class="fw-bold mb-1">Workplace
+			{{firm.location}}</p>
+		<p class="fw-bold">
+			Director:
+			<a class="text-purple" href={{path('user_profile', {'id': firm.director.id} )}}>{{firm.director.firstName}}
+				{{firm.director.lastName}}</a>
+		</p>
+		<a class="text-purple d-block border-top border-bottom mb-2" style="padding: 0.7rem 0; border-color: #880e4f !important" href={{ path('firms_jobs', {'id': firm.id} ) }}>
+			Actual Works ({{firm.jobs|length}})
+		</a>
+		<div>
+			<p class="fw-bold mb-1" style="color: #333;">About Firm</p>
+			<p>{{firm.description}}</p>
+		</div>
+		<p class="fw-bold mb-1 border-top py-2" style="color: #333;">Contacts</p>
+		<div class="firm-contacts">
+			<p class="mb-1 fw-bold">{{firm.name}}</p>
+			<p class="mb-1">
+				<span class="fw-bold">Location:</span>
+				{{firm.location}}</p>
+			<p class="mb-1">
+				<span class="fw-bold">Phone:</span>
+				{{firm.phone}}</p>
+		</div>
+	</div>
+{% endblock %}

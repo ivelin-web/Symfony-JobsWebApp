@@ -1,19 +1,140 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>
+			{% block title %}
+				Title
+			{% endblock %}
+		</title>
+		<!-- Font Awesome -->
+		<link
+		rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"/>
+		<!-- Google Fonts Roboto -->
+		<link
+		rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"/>
+		<!-- JQuery -->
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<!-- MDB -->
+		<link rel="stylesheet" href={{ asset('css/mdb.min.css') }}>
+		<link rel="stylesheet" href={{ asset('css/styles.css') }}>
+	</head>
+	<body>
+		<section class="menu-wrapper">
+			<nav id="sidebar" class="px-2 py-4">
+				<h5 class="mb-4 p-1 fw-bold pointer-event-none letter-spacing">Menu</h5>
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+				<ul class="navbar-nav fw-bold letter-spacing">
+					<li class="nav-item mb-2">
+						<a class="d-flex align-items-center rounded nav-link {{app.request.attributes.get('_route') == 'jobs_index' ? 'active' : ''}}" href={{ path('jobs_index') }} data-toggle="collapse" aria-expanded="false">
+							Home/Jobs
+							<i class="fas fa-home ms-1"></i>
+						</a>
+					</li>
+					<li class="nav-item mb-2">
+						<a class="d-flex align-items-center rounded nav-link {{app.request.attributes.get('_route') == 'about_index' ? 'active' : ''}}" href={{ path('about_index') }}>
+							About
+							<i class="fas fa-question-circle ms-1"></i>
+						</a>
+					</li>
+					<li class="nav-item mb-2">
+						<a class="d-flex align-items-center rounded nav-link {{app.request.attributes.get('_route') == 'contact_index' ? 'active' : ''}}" href={{ path('contact_index') }}>
+							Contact
+							<i class="fas fa-envelope ms-1"></i>
+						</a>
+					</li>
+					<hr class="mt-0">
+					{% if app.user %}
+						<li class="nav-item mb-2">
+							<a class="d-flex align-items-center rounded nav-link {{app.request.attributes.get('_route') == 'user_profile' ? 'active' : ''}}" href={{ path('user_profile', {'id': app.user.id} ) }}>
+								Profile
+								<i class="fas fa-user ms-1"></i>
+							</a>
+						</li>
+						<li class="nav-item mb-2">
+							<a class="nav-link {{app.request.attributes.get('_route') == 'messages' ? 'active' : ''}}" href={{ path('messages') }}>
+								Messages
+								<i class="fas fa-envelope" style="font-size: 1.2rem;"></i>
+								{% if app.user and app.user.unreadMessages|length > 0 %}
+									<span class="badge rounded-pill badge-notification bg-danger">{{app.user.unreadMessages|length}}</span>
+								{% endif %}
+							</a>
+						</li>
+						<li class="nav-item mb-2">
+							<a class="d-flex align-items-center rounded nav-link {{app.request.attributes.get('_route') == 'jobs_favorites' ? 'active' : ''}}" href={{ path('jobs_favorites') }}>
+								Favorite Jobs
+								<i class="fas fa-bookmark ms-1"></i>
+							</a>
+						</li>
+						<li class="nav-item mb-2">
+							<a class="d-flex align-items-center rounded nav-link {{app.request.attributes.get('_route') == 'firms_add' ? 'active' : ''}}" href={{ path('firms_add') }}>
+								Add Firm
+								<i class="fas fa-plus ms-1"></i>
+							</a>
+						</li>
+						<li class="nav-item mb-2">
+							<a class="d-flex align-items-center rounded nav-link {{app.request.attributes.get('_route') == 'jobs_add' ? 'active' : ''}}" href={{ path('jobs_add') }}>
+								Add Job
+								<i class="fas fa-plus ms-1"></i>
+							</a>
+						</li>
+						<li class="nav-item mb-2">
+							<a class="d-flex align-items-center rounded nav-link" href={{ path('app_logout') }}>
+								Logout
+								<i class="fas fa-sign-out-alt ms-1"></i>
+							</a>
+						</li>
+					{% else %}
+						<li class="nav-item mb-2">
+							<a class="d-flex align-items-center rounded nav-link {{app.request.attributes.get('_route') == 'app_login' ? 'active' : ''}}" href={{ path('app_login') }}>
+								Login
+								<i class="fas fa-sign-in-alt ms-1"></i>
+							</a>
+						</li>
+						<li class="nav-item mb-2">
+							<a class="d-flex align-items-center rounded nav-link {{app.request.attributes.get('_route') == 'user_register' ? 'active' : ''}}" href={{ path('user_register') }}>
+								Register
+								<i class="fas fa-user-plus ms-1"></i>
+							</a>
+						</li>
+					{% endif %}
+				</ul>
+			</nav>
+		</section>
+		<header>
+			<nav class="navbar navbar-expand-md navbar-dark bg-purple">
+				<div class="container-fluid">
+					<span class="menu btn btn-floating fw-bold">
+						<i id="sidebarCollapse" class="fas fa-bars text-white"></i>
+					</span>
+					<a class="navbar-brand fw-bold m-0 p-0" href={{ path('jobs_index') }}>JobsWeb.com</a>
+				</div>
+			</nav>
+		</header>
+		<main>
+			{% block body %}{% endblock %}
+		</main>
+		<footer class="bg-purple text-white text-center text-lg-start">
+			<div class="text-center p-3">© 2021 Copyright:<a class="text-white fw-bold" href={{ path('jobs_index') }}>JobsWeb.com</a>
+			</div>
+		</footer>
+		<!-- Dark Overlay element -->
+		<div class="overlay"></div>
+
+		<!-- Cookies baner element -->
+		<div class="cookie-baner disabled p-3 bg-white shadow-1-strong d-flex justify-content-center align-items-center gap-2">
+			<p class="mb-0" style="letter-spacing: 0.05rem">We use cookies to improve your website experience</p>
+			<button id="cookieConsentBtn" class="btn btn-purple text-uppercase" style="font-size: 0.75rem" type="button">
+				Ok, Thanks
+			</button>
+		</div>
+
+		<!-- MDB JS -->
+		<script type="text/javascript" src={{ asset('js/mdb.min.js') }}></script>
+
+		<!-- Main JS -->
+		<script type="text/javascript" src={{ asset('js/main.js') }}></script>
+	</body>
 </html>

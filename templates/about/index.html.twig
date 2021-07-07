@@ -1,0 +1,175 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	About
+{% endblock %}
+
+{% block body %}
+	<div class="container py-4">
+		<h3 class="text-center text-purple">About</h3>
+		<hr class="bg-purple">
+		<section class="mt-5 row justify-content-between align-items-center">
+			<div class="col-md-5 mb-5 mb-md-0">
+				<img class="img-fluid" src={{ asset('/images/about.svg') }} alt="About Image">
+			</div>
+			<div class="col-md-5">
+				<h3 class="letter-spacing mb-2 text-purple">About Our Page</h3>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum adipisci quaerat consequuntur vitae, laboriosam nam perferendis. Illum impedit ducimus facere explicabo maxime possimus unde obcaecati, accusamus sint praesentium sequi numquam.</p>
+			</div>
+			<hr class="my-5 bg-purple">
+			<div class="col-md-5 mb-5 mb-md-0">
+				<h3 class="letter-spacing mb-2 text-purple">Team Work</h3>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum adipisci quaerat consequuntur vitae, laboriosam nam perferendis. Illum impedit ducimus facere explicabo maxime possimus unde obcaecati, accusamus sint praesentium sequi numquam.</p>
+			</div>
+			<div class="col-md-5">
+				<img class="img-fluid" src={{ asset('/images/team-work.svg') }} alt="Team Work Image">
+			</div>
+			<hr class="my-5 bg-purple">
+			<div class="col-md-5 mb-5 mb-md-0">
+				<img class="img-fluid" src={{ asset('/images/team-spirit.svg') }} alt="Team Spirit Image">
+			</div>
+			<div class="col-md-5">
+				<h3 class="letter-spacing mb-2 text-purple">Team Spirit</h3>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum adipisci quaerat consequuntur vitae, laboriosam nam perferendis. Illum impedit ducimus facere explicabo maxime possimus unde obcaecati, accusamus sint praesentium sequi numquam.</p>
+			</div>
+			<hr class="my-5 bg-purple">
+			<section class="about-our-team">
+				<h3 class="letter-spacing mb-4 text-purple text-center">Our Team</h3>
+				<div class="row">
+					<div class="col-12 col-sm-6 col-lg-3">
+						<div class="our-team shadow rounded-3">
+							<div class="picture">
+								<img class="img-fluid" src="https://images.pexels.com/photos/355164/pexels-photo-355164.jpeg?crop=faces&fit=crop&h=200&w=200&auto=compress&cs=tinysrgb">
+							</div>
+							<div class="team-content">
+								<h3 class="name">Michele Miller</h3>
+								<h4 class="title">Back-end Developer</h4>
+							</div>
+							<ul class="social">
+								<li>
+									<a href="#" aria-hidden="true">
+										<i class="fab fa-facebook-f"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#" aria-hidden="true">
+										<i class="fab fa-twitter"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#" aria-hidden="true">
+										<i class="fab fa-google-plus-g"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#" aria-hidden="true">
+										<i class="fab fa-linkedin-in"></i>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-lg-3">
+						<div class="our-team shadow rounded-3">
+							<div class="picture">
+								<img class="img-fluid" src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9">
+							</div>
+							<div class="team-content">
+								<h3 class="name">Patricia Knott</h3>
+								<h4 class="title">CEO</h4>
+							</div>
+							<ul class="social">
+								<li>
+									<a href="#" aria-hidden="true">
+										<i class="fab fa-facebook-f"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#" aria-hidden="true">
+										<i class="fab fa-twitter"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#" aria-hidden="true">
+										<i class="fab fa-google-plus-g"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#" aria-hidden="true">
+										<i class="fab fa-linkedin-in"></i>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-lg-3">
+						<div class="our-team shadow rounded-3">
+							<div class="picture">
+								<img class="img-fluid" src="https://uifaces.co/our-content/donated/gPZwCbdS.jpg">
+							</div>
+							<div class="team-content">
+								<h3 class="name">Justin Ramos</h3>
+								<h4 class="title">Front-end Developer</h4>
+							</div>
+							<ul class="social">
+								<li>
+									<a href="#" aria-hidden="true">
+										<i class="fab fa-facebook-f"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#" aria-hidden="true">
+										<i class="fab fa-twitter"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#" aria-hidden="true">
+										<i class="fab fa-google-plus-g"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#" aria-hidden="true">
+										<i class="fab fa-linkedin-in"></i>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-12 col-sm-6 col-lg-3">
+						<div class="our-team shadow rounded-3">
+							<div class="picture">
+								<img class="img-fluid" src="https://randomuser.me/api/portraits/men/22.jpg">
+							</div>
+							<div class="team-content">
+								<h3 class="name">James Robert</h3>
+								<h4 class="title">Fullstack Developer</h4>
+							</div>
+							<ul class="social">
+								<li>
+									<a href="#" aria-hidden="true">
+										<i class="fab fa-facebook-f"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#" aria-hidden="true">
+										<i class="fab fa-twitter"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#" aria-hidden="true">
+										<i class="fab fa-google-plus-g"></i>
+									</a>
+								</li>
+								<li>
+									<a href="#" aria-hidden="true">
+										<i class="fab fa-linkedin-in"></i>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</section>
+		</section>
+	</div>
+{% endblock %}

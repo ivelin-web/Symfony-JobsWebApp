@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Reset your password
+{% endblock %}
+
+{% block body %}
+	{% for flashError in app.flashes('reset_password_error') %}
+		<div class="alert alert-danger" role="alert">{{ flashError }}</div>
+	{% endfor %}
+	<div class="container py-4">
+		<h3 class="text-center text-purple">Reset Your Password</h3>
+		<hr class="bg-purple mb-5">
+		<section class="row justify-content-between">
+			<div class="col-lg-5 col-md-6 mb-5 mb-md-0">
+				<h1 class="text-purple">Reset your password</h1>
+				<form name="change_password_form" method="post">
+					{% if not resetForm.children.plainPassword.children.first.vars.valid %}
+						<div class="alert alert-danger">
+							{{resetForm.children.plainPassword.children.first.vars.errors|first.message}}
+						</div>
+					{% endif %}
+					{% if not resetForm.children.plainPassword.children.second.vars.valid %}
+						<div class="alert alert-danger">
+							{{resetForm.children.plainPassword.children.second.vars.errors|first.message}}
+						</div>
+					{% endif %}
+					<div class="form-outline mb-3">
+						<input type="password" id="change_password_form_plainPassword_first" name="change_password_form[plainPassword][first]" class="form-control form-control-lg" autocomplete="new-password" required autofocus/>
+						<label class="required form-label" for="change_password_form_plainPassword_first">New Password</label>
+					</div>
+					<div class="form-outline mb-3">
+						<input type="password" id="change_password_form_plainPassword_second" name="change_password_form[plainPassword][second]" class="form-control form-control-lg" autocomplete="new-password" required autofocus/>
+						<label class="required form-label" for="change_password_form_plainPassword_second">Repeat Password</label>
+					</div>
+
+					<button class="btn btn-purple">Reset Password</button>
+					<input type="hidden" id="change_password_form__token" name="change_password_form[_token]" value="{{resetForm._token.vars.value}}">
+				</form>
+			</div>
+			<div class="col-lg-5 col-md-6">
+				<img class="img-fluid" src={{ asset('images/forgot-password.svg') }} alt="Forgot Password Image">
+			</div>
+		</section>
+	</div>
+
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Add Firm
+{% endblock %}
+
+{% block body %}
+	<div class="container py-4">
+		<h3 class="text-center text-purple">Add Firm</h3>
+		<hr class="bg-purple">
+		<div class="row pt-md-5 pt-0 align-items-center justify-content-center gap-lg-5">
+			<div class="col-lg-5 col-md-6 mb-5 mb-md-0">
+				<img class="img-fluid" src={{ asset('images/firm-create.svg') }} alt="Firm Create Image">
+			</div>
+			<div class="col-lg-5 col-md-6">
+				<form method="post">
+					<h2 class="mb-4 fw-bold text-center">Add New Firm</h2>
+					{% for error in app.flashes('firm') %}
+						<div class="alert alert-danger">
+							{{error}}
+						</div>
+					{% endfor %}
+					{% for error in errors|default([]) %}
+						{% if error.type == "name" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<input type="text" name="firm[name]" value="{{data.name}}" id="inputName" class="form-control form-control-lg" autocomplete="false" required autofocus/>
+						<label class=" form-label" for=" inputname">Name</label>
+					</div>
+					{% for error in errors|default([]) %}
+						{% if error.type == "description" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<textarea name="firm[description]" id="inputDescription" class="form-control form-control-lg" autocomplete="false" required autofocus>{{data.description}}</textarea>
+						<label class=" form-label" for=" inputdescription">Description</label>
+					</div>
+					{% for error in errors|default([]) %}
+						{% if error.type == "location" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<input type="text" name="firm[location]" value="{{data.location}}" id="inputLocation" class="form-control form-control-lg" autocomplete="false" required autofocus/>
+						<label class=" form-label" for=" inputlocation">Location</label>
+					</div>
+					{% for error in errors|default([]) %}
+						{% if error.type == "banerUrl" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<input type="text" name="firm[banerUrl]" value="{{data.banerUrl}}" id="inputBanerUrl" class="form-control form-control-lg" autocomplete="false" required autofocus/>
+						<label class="form-label" for="inputBanerUrl">Baner Url</label>
+					</div>
+					{% for error in errors|default([]) %}
+						{% if error.type == "phone" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<input type="text" name="firm[phone]" value="{{data.phone}}" id="inputPhone" class="form-control form-control-lg" autocomplete="false" required autofocus/>
+						<label class="form-label" for="inputPhone">Phone</label>
+					</div>
+
+					<input type="hidden" name="_csrf_token" value="{{ csrf_token('firm_create') }}">
+
+					<div class="text-center">
+						<button class="btn btn-block btn-lg btn-purple" type="submit">
+							Add Firm
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Register
+{% endblock %}
+
+{% block body %}
+	<div class="container py-4">
+		<h3 class="text-center text-purple">Register</h3>
+		<hr class="bg-purple mb-5">
+		<div class="row pt-md-5 pt-0 align-items-center justify-content-center gap-lg-5">
+			<div class="col-lg-5 col-md-6 order-last order-md-first">
+				<form method="post">
+					<h2 class="mb-4 fw-bold text-center">Member Register</h2>
+					{% for error in app.flashes('user') %}
+						<div class="alert alert-danger">
+							{{error}}
+						</div>
+					{% endfor %}
+					{% for error in errors|default([]) %}
+						{% if error.type == "email" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<input type="email" name="user[email]" value="{{data.email}}" id="inputEmail" class="form-control form-control-lg" required autofocus/>
+						<label class="form-label" for="inputEmail">Email</label>
+					</div>
+					{% for error in errors|default([]) %}
+						{% if error.type == "firstName" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<input type="text" name="user[first_name]" value="{{data.firstName}}" id="inputFirstName" class="form-control form-control-lg" required autofocus/>
+						<label class="form-label" for="inputFirstName">First Name</label>
+					</div>
+					{% for error in errors|default([]) %}
+						{% if error.type == "lastName" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<input type="text" name="user[last_name]" value="{{data.lastName}}" id="inputLastName" class="form-control form-control-lg" required autofocus/>
+						<label class="form-label" for="inputLastName">Last Name</label>
+					</div>
+					{% for error in errors|default([]) %}
+						{% if error.type == "description" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<input type="text" name="user[description]" value="{{data.description}}" id="inputDescription" class="form-control form-control-lg" required autofocus/>
+						<label class="form-label" for="inputDescription">Description</label>
+					</div>
+					{% for error in errors|default([]) %}
+						{% if error.type == "location" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<input type="text" name="user[location]" value="{{data.location}}" id="inputLocation" class="form-control form-control-lg" required autofocus/>
+						<label class="form-label" for="inputLocation">Location</label>
+					</div>
+					{% for error in errors|default([]) %}
+						{% if error.type == "phone" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<input type="text" name="user[phone]" value="{{data.phone}}" id="inputPhone" class="form-control form-control-lg" required autofocus/>
+						<label class="form-label" for="inputPhone">Phone</label>
+					</div>
+					{% for error in errors|default([]) %}
+						{% if error.type == "password" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<input type="password" name="user[password]" id="inputPassword" class="form-control form-control-lg" required/>
+						<label class="form-label" for="inputPassword">Password</label>
+					</div>
+					{% for error in errors|default([]) %}
+						{% if error.type == "repeatedPassword" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<input type="password" name="user[repeated_password]" id="inputRepeatedPassword" class="form-control form-control-lg" required/>
+						<label class="form-label" for="inputRepeatedPassword">Repeat Password</label>
+					</div>
+
+					<input type="hidden" name="_csrf_token" value="{{ csrf_token('register') }}">
+
+					<div class="text-center">
+						<button class="btn btn-block btn-lg btn-purple mb-4" type="submit">
+							Register
+						</button>
+						<a href={{ path('app_login') }} class="text-purple">Login to your Account
+							<i class="fas fa-long-arrow-alt-right"></i>
+						</a>
+					</div>
+				</form>
+			</div>
+			<div class="col-lg-5 col-md-6 mb-5 mb-md-0">
+				<img class="img-fluid" src={{ asset('images/login.svg') }} alt="Login Image">
+			</div>
+		</div>
+	</div>
+{% endblock %}

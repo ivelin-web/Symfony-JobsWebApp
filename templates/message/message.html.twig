@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Message
+{% endblock %}
+
+{% block body %}
+	<div class="container py-4">
+		<h3 class="text-center text-purple">Message</h3>
+		<hr class="bg-purple">
+
+		<div class="d-flex flex-column align-items-center gap-2 mt-5">
+			<img class="d-block rounded-circle shadow-1-strong" style="object-fit: cover; width: 200px; height: 200px;" src={{message.sender.avatarUrl ? asset('images/users/' ~ message.sender.avatarUrl) : 'https://www.olimpia-consult.com/i/a/no-avatar.png'}} alt="User Avatar">
+			<a href={{ path('user_profile', {'id': message.sender.id} ) }} class="fw-bold fs-5 text-purple">{{message.sender.firstName}}
+				{{message.sender.lastName}}</a>
+			<p class="mb-0">
+				<i class="fas fa-map-marker-alt me-1"></i>
+				{{message.sender.location}}
+			</p>
+			<p>
+				<i class="fas fa-phone me-1"></i>
+				{{message.sender.phone}}
+			</p>
+			<p class="shadow p-3 text-center align-self-stretch">
+				{{message.text}}
+			</p>
+		</div>
+	</div>
+{% endblock %}

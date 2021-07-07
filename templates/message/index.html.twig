@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Messages
+{% endblock %}
+
+{% block body %}
+	<div class="container py-4">
+		<h3 class="text-center text-purple">Messages</h3>
+		<hr
+		class="bg-purple">
+
+		<!-- Tabs navs -->
+		<ul class="nav nav-tabs mb-5 justify-content-center text-center" id="ex1" role="tablist">
+			<li class="nav-item flex-grow-1" role="presentation">
+				<a class="nav-link active fs-6" id="ex1-tab-1" data-mdb-toggle="tab" href="#ex1-tabs-1" role="tab" aria-controls="ex1-tabs-1" aria-selected="true">Read Messages</a>
+			</li>
+			<li class="nav-item flex-grow-1" role="presentation">
+				<a class="d-flex align-items-center justify-content-center nav-link fs-6" id="ex1-tab-2" data-mdb-toggle="tab" href="#ex1-tabs-2" role="tab" aria-controls="ex1-tabs-2" aria-selected="false">
+					Unread Messages
+					{% if app.user.unreadMessages|length > 0 %}
+						<span class="badge rounded-pill bg-danger ms-2">{{app.user.unreadMessages|length}}</span>
+					{% endif %}
+				</a>
+			</li>
+		</ul>
+		<!-- Tabs navs -->
+
+		<!-- Tabs content -->
+		<!-- Readed Messages -->
+			<div class="tab-content" id="ex1-content"> <div class="tab-pane fade show active" id="ex1-tabs-1" role="tabpanel" aria-labelledby="ex1-tab-1">
+				<ul class="list-group list-group-flush">
+					{% if app.user.readMessages|length > 0 %}
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th scope="col">From</th>
+									<th scope="col">Text</th>
+									<th scope="col">Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for message in app.user.readMessages %}
+									<tr style="cursor: pointer;" onclick="window.location.href='/messages/{{message.id}}'">
+										<th scope="row">{{message.sender.firstName}}
+											{{message.sender.lastName}}</th>
+										<td>{{message.text|length > 40 ? message.text|slice(0, 40) ~ '...' : message.text}}</td>
+										<td>{{message.dateSended|date("m/d/Y")}}</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					{% else %}
+						<h5>Don't have any read messages...</h5>
+					{% endif %}
+				</ul>
+			</div>
+			<!-- Unreaded Messages -->
+			<div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel" aria-labelledby="ex1-tab-2">
+				<ul class="list-group list-group-flush">
+					{% if app.user.unreadMessages|length > 0 %}
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th scope="col">From</th>
+									<th scope="col">Text</th>
+									<th scope="col">Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for message in app.user.unreadMessages %}
+									<tr style="cursor: pointer;" onclick="window.location.href='/messages/{{message.id}}'">
+										<th scope="row">{{message.sender.firstName}}
+											{{message.sender.lastName}}</th>
+										<td>{{message.text|length > 40 ? message.text|slice(0, 40) ~ '...' : message.text}}</td>
+										<td>{{message.dateSended|date("m/d/Y")}}</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					{% else %}
+						<h5>Don't have unread messages...</h5>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+		<!-- Tabs content -->
+	</div>
+{% endblock %}

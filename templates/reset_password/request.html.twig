@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Reset Password
+{% endblock %}
+
+{% block body %}
+	{% for flashError in app.flashes('reset_password_error') %}
+		<div class="alert alert-danger" role="alert">{{ flashError }}</div>
+	{% endfor %}
+	<div class="container py-4">
+		<h3 class="text-center text-purple">Reset Password</h3>
+		<hr class="bg-purple mb-5">
+
+		{% if emailNotFoundError is defined %}
+			<p class="text-center fs-5">{{emailNotFoundError}}
+				<a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
+		{% else %}
+			<section class="row justify-content-between">
+				<div class="col-lg-5 col-md-6 mb-5 mb-md-0">
+					{% if not requestForm.vars.valid %}
+						<div class="alert alert-danger">
+							{{ requestForm.children.email.vars.errors|first.message }}
+						</div>
+					{% endif %}
+					<h1 class="text-purple">Reset your password</h1>
+					<form name="reset_password_request_form" method="post">
+						<div class="mb-1">
+							<small>
+								Enter your email address and we we will send you a																																                link to reset your password.
+							</small>
+						</div>
+						<div class="form-outline mb-3">
+							<input type="email" id="reset_password_request_form_email" name="reset_password_request_form[email]" class="form-control form-control-lg" autocomplete="email" required autofocus/>
+							<label class="required form-label" for="reset_password_request_form_email">Email</label>
+						</div>
+
+						<button class="btn btn-purple">Send Reset Password</button>
+						<input type="hidden" id="reset_password_request_form__token" name="reset_password_request_form[_token]" value="{{requestForm._token.vars.value}}">
+					</form>
+				</div>
+				<div class="col-lg-5 col-md-6">
+					<img class="img-fluid" src={{ asset('images/forgot-password.svg') }} alt="Forgot Password Image">
+				</div>
+			</section>
+		{% endif %}
+	</div>
+{% endblock %}

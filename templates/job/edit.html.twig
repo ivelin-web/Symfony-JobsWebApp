@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Edit Job
+{% endblock %}
+
+{% block body %}
+	<div class="container py-4">
+		<h3 class="text-center text-purple">Edit Job</h3>
+		<hr class="bg-purple">
+		<div class="row pt-md-5 pt-0 align-items-center justify-content-center gap-lg-5">
+			<div class="col-lg-5 col-md-6 mb-5 mb-md-0">
+				<img class="img-fluid" src={{ asset('images/firm-edit.svg') }} alt="Firm Edit Image">
+			</div>
+			<div class="col-lg-5 col-md-6">
+				<form method="post">
+					<h2 class="mb-4 fw-bold text-center">Edit</h2>
+					{% for error in app.flashes('job') %}
+						<div class="alert alert-danger">
+							{{error}}
+						</div>
+					{% endfor %}
+					{% for error in errors|default([]) %}
+						{% if error.type == "title" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<input type="text" name="job[title]" value="{{data.title ?? job.title}}" id="inputTitle" class="form-control form-control-lg" autocomplete="false" required autofocus/>
+						<label class="form-label" for="inputTitle">Title</label>
+					</div>
+					{% for error in errors|default([]) %}
+						{% if error.type == "firm" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<select name="job[firm]" class="form-select mb-3" aria-label="Default select example">
+						<option>Select Firm</option>
+						{% if firms|length > 0 %}
+							{% for firm in firms %}
+								{% if (data.firm.id ?? job.firm.id) == firm.id %}
+									<option selected value="{{firm.name}}">{{firm.name}}</option>
+								{% else %}
+									<option value="{{firm.name}}">{{firm.name}}</option>
+								{% endif %}
+							{% endfor %}
+						{% else %}
+							<option>You dont have firms. First create!</option>
+						{% endif %}
+					</select>
+					{% for error in errors|default([]) %}
+						{% if error.type == "description" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<textarea name="job[description]" id="inputDescription" class="form-control form-control-lg" autocomplete="false" required autofocus>{{data.description ?? job.description}}</textarea>
+						<label class="form-label" for="inputdescription">Description</label>
+					</div>
+					{% for error in errors|default([]) %}
+						{% if error.type == "location" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<input type="text" name="job[location]" value="{{data.location ?? job.location}}" id="inputLocation" class="form-control form-control-lg" autocomplete="false" required autofocus/>
+						<label class="form-label" for="inputlocation">Location</label>
+					</div>
+					{% for error in errors|default([]) %}
+						{% if error.type == "address" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<input type="text" name="job[address]" value="{{data.address ?? job.address}}" id="inputAddress" class="form-control form-control-lg" autocomplete="false" required autofocus/>
+						<label class="form-label" for="inputAddress">Address</label>
+					</div>
+					{% for error in errors|default([]) %}
+						{% if error.type == "requirements" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<textarea name="job[requirements]" placeholder="split reqirements with ; and space" id="inputRequirements" class="form-control form-control-lg" autocomplete="false" required autofocus>{{data.requirements ?? job.requirements}}</textarea>
+						<label class="form-label" for="inputRequirements">Requirements</label>
+					</div>
+					{% for error in errors|default([]) %}
+						{% if error.type == "obligations" %}
+							<p class="text-danger mb-0">{{error.message}}</p>
+						{% endif %}
+					{% endfor %}
+					<div class="form-outline mb-3">
+						<textarea name="job[obligations]" placeholder="split obligations with ; and space" id="inputObligations" class="form-control form-control-lg" autocomplete="false" required autofocus>{{data.obligations ?? job.obligations}}</textarea>
+						<label class="form-label" for="inputObligations">Obligations</label>
+					</div>
+
+					<input type="hidden" name="_csrf_token" value="{{ csrf_token('job_edit') }}">
+
+					<div class="text-center">
+						<button class="btn btn-block btn-lg btn-purple" type="submit">
+							Edit Job
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}

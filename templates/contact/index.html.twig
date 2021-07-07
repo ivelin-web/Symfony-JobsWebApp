@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Contact
+{% endblock %}
+
+{% block body %}
+	{% for success in app.flashes('success') %}
+		<div class="alert alert-success fs-5 text-center">
+			{{success}}
+		</div>
+	{% endfor %}
+	<div class="container py-4">
+		<h3 class="text-center text-purple">Contact</h3>
+		<hr class="bg-purple">
+		<div class="mapouter my-5">
+			<div class="gmap_canvas">
+				<iframe width="100%" height="350" id="gmap_canvas" src="https://maps.google.com/maps?q=Veliko%20Tarnovo&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+				<a href="https://fmovies2.org">fmovies</a><br>
+				<a href="https://www.embedgooglemap.net"></a>
+			</div>
+		</div>
+		<section class="py-4">
+			<div class="row">
+				<div class="col-lg-7 shadow p-5">
+					<h4 class="mb-4">Get in touch</h4>
+					<form method="post">
+						<div class="row mb-4">
+							<div class="col position-relative">
+								{% for error in errors|default([]) %}
+									{% if error.type == "name" %}
+										<p style="font-size: 0.85rem;" class="text-danger position-absolute bottom-100 mb-0">{{error.message}}</p>
+									{% endif %}
+								{% endfor %}
+								<div class="form-outline">
+									<input value="{{data.name ?? ''}}" name="contact[name]" type="text" id="nameInput" class="form-control" required autocomplete="false"/>
+									<label class="form-label" for="nameInput">Name</label>
+								</div>
+							</div>
+							<div class="col position-relative">
+								{% for error in errors|default([]) %}
+									{% if error.type == "email" %}
+										<p style="font-size: 0.85rem;" class="text-danger position-absolute bottom-100 mb-0">{{error.message}}</p>
+									{% endif %}
+								{% endfor %}
+								<div class="form-outline">
+									<input value="{{data.email ?? ''}}" name="contact[email]" type="email" id="emailInput" class="form-control" required email autocomplete="false"/>
+									<label class="form-label" for="emailInput">Email</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="position-relative">
+							{% for error in errors|default([]) %}
+								{% if error.type == "subject" %}
+									<p style="font-size: 0.85rem;" class="text-danger position-absolute bottom-100 mb-0">{{error.message}}</p>
+								{% endif %}
+							{% endfor %}
+							<div class="form-outline mb-4">
+								<input value="{{data.subject ?? ''}}" name="contact[subject]" type="text" id="subjectInput" class="form-control" required autocomplete="false"/>
+								<label class="form-label" for="subjectInput">Subject</label>
+							</div>
+						</div>
+
+						<div class="position-relative">
+							{% for error in errors|default([]) %}
+								{% if error.type == "message" %}
+									<p style="font-size: 0.85rem;" class="text-danger position-absolute bottom-100 mb-0">{{error.message}}</p>
+								{% endif %}
+							{% endfor %}
+							<div class="form-outline mb-4">
+								<textarea name="contact[message]" class="form-control" id="messageInput" rows="5" required autocomplete="false">{{data.message ?? ''}}</textarea>
+								<label class="form-label" for="messageInput">Message</label>
+							</div>
+						</div>
+
+						<input type="hidden" name="_csrf_token" value="{{ csrf_token('message_send') }}">
+
+						<button class="btn btn btn-purple" type="submit">
+							Send Message
+						</button>
+					</form>
+				</div>
+				<div class="col-lg-5 p-5 bg-purple text-white shadow">
+					<h4 class="mb-4">Contact us</h4>
+					<ul class="d-flex flex-column gap-4 list-unstyled">
+						<li class="d-flex align-items-center gap-3">
+							<span class="contact-icon-wrapper shadow">
+								<i class="fas fa-map-marker-alt"></i>
+							</span>
+							<p class="mb-0">
+								<span class="fw-bold">Address:</span>
+								Veliko Tarnovo</p>
+						</li>
+						<li class="d-flex align-items-center gap-3">
+							<span class="contact-icon-wrapper shadow">
+								<i class="fas fa-phone-alt"></i>
+							</span>
+							<p class="mb-0">
+								<span class="fw-bold">Phone:</span>
+								+ 123-123-123</p>
+						</li>
+						<li class="d-flex align-items-center gap-3">
+							<span class="contact-icon-wrapper shadow">
+								<i class="fas fa-paper-plane"></i>
+							</span>
+							<p class="mb-0">
+								<span class="fw-bold">Email:</span>
+								example@gmail.com</p>
+						</li>
+						<li class="d-flex align-items-center gap-3">
+							<span class="contact-icon-wrapper shadow">
+								<i class="fas fa-globe-asia"></i>
+							</span>
+							<p class="mb-0">
+								<span class="fw-bold">Website:</span>
+								www.yoursite.com</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+	</div>
+{% endblock %}

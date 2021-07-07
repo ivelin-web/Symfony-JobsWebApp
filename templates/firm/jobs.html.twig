@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Actual Jobs
+{% endblock %}
+
+{% block body %}
+	<div class="container py-4">
+		<h3 class="text-center text-purple">Actual Jobs</h3>
+		<hr class="bg-purple">
+		<div class="d-flex gap-2">
+			<img class="shadow" style="width: 60px; height: 80px; display: block; object-fit: cover" src="{{firm.banerUrl}}" alt="Firm Baner">
+			<div>
+				<p class="mb-0 fw-bold text-dark" style="font-size: 0.9rem">{{firm.name}}</p>
+				<p class="text-dark fw-bold">Director:
+					<a class="text-purple" href={{ path('user_profile', {'id': firm.director.id} ) }}>
+						{{firm.director.firstName}}
+						{{firm.director.lastName}}</a>
+				</p>
+			</div>
+		</div>
+		<hr>
+		<ul class="list-group list-group-flush">
+			{% if jobs|length > 0 %}
+				{% for job in jobs %}
+					<li class="job-card list-group-item mb-3 pb-4" onclick="window.location.href='/jobs/{{job.id}}'">
+						<div class="row align-items-center">
+							<div class="col-md-6 mb-3 mb-md-0">
+								<div class="d-flex align-items-center gap-2 text-muted mb-2">
+									<i class="far fa-calendar"></i>
+
+									{% set difference = date("now").diff(date(job.dateAdded)) %}
+									{% set daysAgo = difference.days %}
+
+									{% if daysAgo != 0 %}
+										<p class="mb-0 text-uppercase letter-spacing">{{daysAgo}}
+											days ago</p>
+									{% else %}
+										<p class="mb-0 text-uppercase letter-spacing">today</p>
+									{% endif %}
+								</div>
+								<div class="d-flex align-items-center mb-2" style="font-size: 0.8rem; color: #880E4F">
+									<i class="fas fa-star"></i>
+									<i class="fas fa-star"></i>
+									<i class="fas fa-star"></i>
+									<i class="fas fa-star"></i>
+									<i class="fas fa-star"></i>
+									<p class="fw-bold ms-1 mb-0 title text-dark fs-6">{{job.title}}</p>
+								</div>
+
+								{% set descriptionLimit = 75 %}
+								<p style="font-size: 0.95rem" class="text-muted mb-2">{{job.description|length > descriptionLimit ? job.description|slice(0, descriptionLimit) ~ '...' : job.description}}</p>
+								<div class="d-flex align-items-center gap-2 text-muted mb-2">
+									<i class="far fa-paper-plane"></i>
+									<p class="mb-0">{{job.location}}</p>
+								</div>
+							</div>
+							<div class="col-md-6 d-flex d-md-block align-items-center text-start text-md-center">
+								<img style="width: 75px; height: 75px; object-fit: cover" class="rounded-circle shadow" src="{{job.firm.banerUrl}}" alt="Firm Image">
+								<p class="text-muted ms-2 ms-md-0 mb-0">{{job.firm.name}}</p>
+							</div>
+						</div>
+					</li>
+				{% endfor %}
+			{% else %}
+				<h5>No currently added jobs...</h5>
+			{% endif %}
+		</ul>
+	</div>
+{% endblock %}

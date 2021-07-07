@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Favorite Jobs
+{% endblock %}
+
+{% block body %}
+	<div class="container py-4">
+		<h3 class="text-center text-purple">Favorite Jobs</h3>
+		<hr class="bg-purple mb-5">
+
+		{% if jobs|length > 0 %}
+			{% for job in jobs %}
+				<div onclick="window.location.href='/jobs/{{job.id}}'" class="job-card row align-items-center mb-3 p-2 pb-4 text-black">
+					<div class="col-md-6 mb-3 mb-md-0">
+						<div class="d-flex align-items-center gap-2 text-muted mb-2">
+							<i class="far fa-calendar"></i>
+
+							{% set difference = date("now").diff(date(job.dateAdded)) %}
+							{% set daysAgo = difference.days %}
+
+							{% if daysAgo != 0 %}
+								<p class="mb-0 text-uppercase letter-spacing">{{daysAgo}}
+									days ago</p>
+							{% else %}
+								<p class="mb-0 text-uppercase letter-spacing">today</p>
+							{% endif %}
+						</div>
+						<p class="fw-bold mb-2 title">{{job.title}}</p>
+
+						{% set descriptionLimit = 75 %}
+						<p style="font-size: 0.95rem" class="text-muted mb-2">{{job.description|length > descriptionLimit ? job.description|slice(0, descriptionLimit) ~ '...' : job.description}}</p>
+						<div class="d-flex align-items-center gap-2 text-muted mb-2">
+							<i class="far fa-paper-plane"></i>
+							<p class="mb-0">{{job.location}}</p>
+						</div>
+					</div>
+					<div class="col-md-6 d-flex d-md-block align-items-center text-start text-md-center">
+						<img style="width: 75px; height: 75px; object-fit: cover" class="rounded-circle shadow" src="{{job.firm.banerUrl}}" alt="Firm Image">
+						<p class="text-muted ms-2 ms-md-0 mb-0">{{job.firm.name}}</p>
+					</div>
+				</div>
+			{% endfor %}
+		{% else %}
+			<h5>No currently jobs added to your favorites.</h5>
+		{% endif %}
+	</div>
+{% endblock %}
